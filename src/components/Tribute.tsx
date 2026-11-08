@@ -67,7 +67,7 @@ export function TributeWall({ slug, t, lang }: { slug: string; t: Dict; lang: La
           <ul className="flex flex-col gap-8">
             {msgs.map((m) => (
               <li key={m.id} className="relative pl-6">
-                <span className="absolute left-0 top-3 h-2 w-2 rounded-full bg-candle shadow-[0_0_12px_2px_rgba(242,179,90,.6)^" />
+                <span className="absolute left-0 top-3 h-2 w-2 rounded-full bg-candle shadow-[0_0_12px_2px_rgba(242,179,90,.6)]" />
                 <p className="whitespace-pre-wrap break-words font-display text-[24px] leading-snug">{m.message}</p>
                 <p className="label mt-2 text-[10.5px] text-smoke">{m.signed_as || t.signed_anon} · {new Date(m.created_at).toLocaleDateString(lang === "pa" ? "pa-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>
               </li>
