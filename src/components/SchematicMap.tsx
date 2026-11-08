@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { DISTRICTS } from "@/lib/districts";
 import type { Lang } from "@/lib/i18n";
 
@@ -19,24 +20,45 @@ export function SchematicMap({ counts, focus, lang, label, compact = false, onBo
       </defs>
       <polygon points={OUTLINE.map(([lo, la]) => `${X(lo).toFixed(1)},${Y(la).toFixed(1)}`).join(" ")} fill={onBone ? "#e9e2d4" : "#11141b"} stroke={onBone ? "#9a4a14" : "#f2b35a"} strokeOpacity=".55" strokeWidth="1.2" />
       <rect width={W} height={H} fill="url(#mgrid)" clipPath="url(#mclip)" />
-      {Object.entries(DISTRICTS).map(([name, d]) => {
-        const x = X(d.lng), y = Y(d.lat), c = counts[name] || 0;
-        const on = compact ? focus === name : c > 0;
-        if (!on) return (
-          <g key={name}>
-            <circle cx={x} cy={y} r="2.2" fill={muted} opacity=".55" />
-            {!compact && <text x={x + 5} y={y + 3.5} fontSize="9.5" fill={muted} opacity=".8" fontFamily="var(--font-mono)">{lang === "pa" ? d.pa : name}</text>}
-          </g>
-        );
-        const r = compact ? 7 : 5 + c * 2.5;
-        return (
-          <g key={name}>
-            <circle cx={x} cy={y} r={r * 4.2} fill="url(#mglow)" />
-            <circle cx={x} cy={y} r={r} fill="#ffd58f" stroke={focus === name ? ink : "none"} strokeWidth="1.5" />
-            <text x={x + r + 7} y={y + 4} fontSize="12" fill={ink} fontFamily="var(--font-sans)" fontWeight="500">{lang === "pa" ? d.pa : name}{compact ? "" : ` · ${c}`}</text>
-          </g>
-        );
-      })}
+      {(() => {
+        // Labels are placed greedily: lit districts first, then quiet ones, skipping any that would collide.
+        const boxes: [number, number, number, number][] = [];
+        const hits = (b: [number, number, number, number]) =>
+          boxes.some(([x1, y1, x2, y2]) => !(b[2] < x1 || b[0] > x2 || b[3] < y1 || b[1] > y2));
+        const ch = lang === "pa" ? 6.2 : 6.4;
+        const entries = Object.entries(DISTRICTS);
+        const lit = entries.filter(([n]) => (compact ? focus === n : (counts[n] || 0) > 0));
+        const quiet = entries.filter(([n]) => !(compact ? focus === n : (counts[n] || 0) > 0));
+        const nodes: ReactNode[] = [];
+
+        for (const [name, d] of lit) {
+          const x = X(d.lng), y = Y(d.lat), c = counts[name] || 0;
+          const r = compact ? 7 : 5 + c * 2.5;
+          const text = `${lang === "pa" ? d.pa : name}${compact ? "" : ` · ${c}`}`;
+          boxes.push([x - r, y - r, x + r + 7 + text.length * ch * 1.05, y + r]);
+          nodes.push(
+            <g key={name}>
+              <circle cx={x} cy={y} r={r * 4.2} fill="url(#mglow)" />
+              <circle cx={x} cy={y} r={r} fill="#ffd58f" stroke={focus === name ? ink : "none"} strokeWidth="1.5" />
+              <text x={x + r + 7} y={y + 4} fontSize="12" fill={ink} fontFamily="var(--font-sans)" fontWeight="500">{text}</text>
+            </g>,
+          );
+        }
+        for (const [name, d] of quiet) {
+          const x = X(d.lng), y = Y(d.lat);
+          const text = lang === "pa" ? d.pa : name;
+          const box: [number, number, number, number] = [x - 2, y - 6, x + 5 + text.length * 5.3, y + 6];
+          const show = !compact && !hits(box);
+          if (show) boxes.push(box);
+          nodes.push(
+            <g key={name}>
+              <circle cx={x} cy={y} r="2.2" fill={muted} opacity=".55" />
+              {show && <text x={x + 5} y={y + 3.5} fontSize="9.5" fill={muted} opacity=".8" fontFamily="var(--font-mono)">{text}</text>}
+            </g>,
+          );
+        }
+        return nodes;
+      })()}
     </svg>
   );
 }

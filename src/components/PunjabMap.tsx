@@ -60,12 +60,12 @@ export function PunjabMap({ entries, lang, t, token }: { entries: Entry[]; lang:
         {token ? (
           <div ref={box} className="h-[520px] w-full sm:h-[640px]" role="region" aria-label={t.map_title} />
         ) : (
-          <div className="flex flex-col gap-3 p-6 sm:p-10">
+          <div className="flex flex-col gap-4 p-6 sm:p-10">
             <div className="mx-auto w-full max-w-[560px]"><SchematicMap counts={counts} focus={sel ?? undefined} lang={lang} label={t.map_note} /></div>
-            <p className="text-center text-[13px] text-smoke">{t.map_nokey}</p>
+            <p className="mx-auto max-w-[46ch] text-center text-[12.5px] leading-relaxed text-smoke">{t.map_legend}</p>
           </div>
         )}
-        <p className="label absolute bottom-4 left-5 z-10 max-w-[44ch] text-[10px] normal-case tracking-normal text-smoke">{t.map_legend}</p>
+        {token && <p className="label absolute bottom-4 left-5 z-10 max-w-[44ch] text-[10px] normal-case tracking-normal text-smoke">{t.map_legend}</p>}
       </div>
 
       <div className="flex flex-col gap-3">

@@ -24,10 +24,12 @@ export function PersonCard({ p, lang, t, diyas, index }: { p: Person; lang: Lang
         <p className="text-[14px] text-smoke">{pVillage(p, lang)} · {pDistrict(p.district, lang)}</p>
         <p className="text-[15px] leading-relaxed text-bone/80">{pStand(p, lang)}</p>
         <div className="mt-auto flex items-center justify-between pt-4">
-          <span className="inline-flex items-center gap-2 text-[13px] text-smoke">
-            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full rounded-full bg-candle opacity-60 blur-[3px]" /><span className="relative inline-flex h-2 w-2 rounded-full bg-candle" /></span>
-            <span className="tabular-nums">{diyas ?? 0}</span> {t.diyas}
-          </span>
+          {diyas ? (
+            <span className="inline-flex items-center gap-2 text-[13px] text-smoke">
+              <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full rounded-full bg-candle opacity-60 blur-[3px]" /><span className="relative inline-flex h-2 w-2 rounded-full bg-candle" /></span>
+              <span className="tabular-nums">{diyas}</span> {t.diyas}
+            </span>
+          ) : <span />}
           <span className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-bone/70 transition duration-500 group-hover:border-candle group-hover:bg-candle group-hover:text-night" aria-hidden="true">→</span>
         </div>
       </div>

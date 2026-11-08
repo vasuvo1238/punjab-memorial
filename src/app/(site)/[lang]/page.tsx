@@ -59,7 +59,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
       {/* 2 · Figures strip */}
       <section className="border-y border-white/[0.06] bg-night-2/60">
         <div className="wrap grid grid-cols-2 divide-white/[0.06] md:grid-cols-4 md:divide-x">
-          {([[`${first}–${last}`, t.band_years], [districts, t.band_districts], [totalDiyas, t.band_diyas], [msgCount, t.band_msgs]] as const).map(([v, l], i) => (
+          {([[`${first}–${last}`, t.band_years], [districts, t.band_districts], [people.length, t.band_names], [totalDiyas, t.band_diyas], [msgCount, t.band_msgs]] as [string | number, string][])
+            .filter(([v, l]) => !((l === t.band_diyas || l === t.band_msgs) && v === 0))
+            .slice(0, 4)
+            .map(([v, l], i) => (
             <div key={l} className={`flex flex-col gap-1 py-8 ${i % 2 ? "pl-6" : ""} md:px-8 md:first:pl-0`}>
               <span className="font-display text-[44px] leading-none tabular-nums">{typeof v === "number" ? <CountUp to={v} /> : v}</span>
               <span className="label text-[10.5px] text-smoke">{l}</span>

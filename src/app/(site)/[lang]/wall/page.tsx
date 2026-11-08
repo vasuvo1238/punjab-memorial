@@ -35,7 +35,7 @@ export default async function Wall({ params }: { params: Promise<{ lang: Lang }>
         aside={
           <div className="flex gap-10">
             <div><p className="font-display text-7xl leading-none">{people.length}</p><p className="label mt-2 text-smoke">{t.honored}</p></div>
-            <div><p className="font-display text-7xl leading-none text-candle">{total}</p><p className="label mt-2 text-smoke">{t.tribute_count}</p></div>
+            {total > 0 && <div><p className="font-display text-7xl leading-none text-candle">{total}</p><p className="label mt-2 text-smoke">{t.tribute_count}</p></div>}
           </div>
         } />
       <section className="wrap pb-28">

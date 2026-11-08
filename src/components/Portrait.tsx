@@ -31,8 +31,13 @@ export function Portrait({ person, placeholderLabel, sizes = "(max-width: 640px)
           <div className="absolute inset-0 opacity-[.35] [background:repeating-linear-gradient(45deg,transparent_0_14px,rgba(242,179,90,.05)_14px_15px),repeating-linear-gradient(-45deg,transparent_0_14px,rgba(242,179,90,.05)_14px_15px)]" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(50%_60%_at_50%_100%,rgba(242,179,90,.28),transparent_70%)] transition duration-700 group-hover/portrait:opacity-100 opacity-70" />
           <div className="absolute inset-3 rounded-[inherit] border border-candle/[0.14]" />
-          <div className="absolute inset-0 grid place-items-center">
-            <span className={`engraved font-display italic leading-none ${fs} transition duration-700 group-hover/portrait:text-candle-hi/80`}>{initials}</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
+            <span className={`engraved font-display italic leading-none ${fs} !text-bone/30 transition duration-700 group-hover/portrait:!text-candle-hi/70`}>{initials}</span>
+            {plaqueSize !== "sm" && (
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-bone/25">
+                {person.dateOfDeath.slice(0, 4)} · {person.district}
+              </span>
+            )}
           </div>
           <span className="placeholder-tag">{placeholderLabel}</span>
         </div>

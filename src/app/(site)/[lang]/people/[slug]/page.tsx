@@ -144,19 +144,16 @@ export default async function Profile({ params }: { params: Promise<{ lang: Lang
               )}
             </div>
 
-            <div className="flex flex-col gap-5">
-              <p className="label text-ember-deep">{t.chapter} 02 · {t.how}</p>
-              <p className="border-l-2 border-ember-deep/60 pl-6 font-display text-[clamp(26px,2.6vw,34px)] italic leading-snug">{pStand(p, lang)}</p>
-            </div>
-
-            <div className="flex flex-col gap-5">
-              <p className="label text-ember-deep">{t.chapter} 03 · {t.family}</p>
-              {p.familyQuotes.length ? p.familyQuotes.map((q, i) => (
-                <blockquote key={i} className="font-display text-[clamp(26px,2.6vw,34px)] leading-snug">
-                  “{lang === "pa" && q.quotePa ? q.quotePa : q.quote}”{q.by ? <footer className="label mt-3 text-[11px] not-italic text-stone">— {q.by}</footer> : null}
-                </blockquote>
-              )) : <p className="text-stone">{t.quotes_pending}</p>}
-            </div>
+            {p.familyQuotes.length > 0 && (
+              <div className="flex flex-col gap-5">
+                <p className="label text-ember-deep">{t.chapter} 02 · {t.family}</p>
+                {p.familyQuotes.map((q, i) => (
+                  <blockquote key={i} className="font-display text-[clamp(26px,2.6vw,34px)] leading-snug">
+                    “{lang === "pa" && q.quotePa ? q.quotePa : q.quote}”{q.by ? <footer className="label mt-3 text-[11px] not-italic text-stone">— {q.by}</footer> : null}
+                  </blockquote>
+                ))}
+              </div>
+            )}
 
             <div className="flex flex-col gap-4">
               <p className="label text-ember-deep">{t.sources}</p>
@@ -178,18 +175,24 @@ export default async function Profile({ params }: { params: Promise<{ lang: Lang
       {/* Photographs and film */}
       <section className="wrap flex flex-col gap-20 py-[clamp(80px,10vw,140px)]">
         <div className="flex flex-col gap-8">
-          <Reveal className="flex items-end justify-between gap-6"><div><p className="kicker">{t.chapter} 04</p><h2 className="display-m mt-3">{t.gallery}</h2></div></Reveal>
+          <Reveal className="flex flex-col gap-3">
+            <p className="kicker">{p.gallery.length ? t.gallery : t.places_title}</p>
+            <h2 className="display-m">{p.gallery.length ? t.gallery : t.places_title}</h2>
+            {!p.gallery.length && <p className="lede max-w-[56ch] text-bone/60">{t.places_sub}</p>}
+          </Reveal>
           <Gallery images={p.gallery} illustrative={illus} seed={seed} placeholderLabel={t.photo_ph} placeholderCredit={t.gallery_ph_cap} illustrativeLabel={t.illustrative} closeLabel={t.close} />
         </div>
-        <div className="flex flex-col gap-8">
-          <Reveal><p className="kicker">{t.chapter} 05</p><h2 className="display-m mt-3">{t.video}</h2></Reveal>
-          {p.videos.length ? p.videos.map((v, i) => (
-            <div key={i} className="flex flex-col gap-3">
-              <VideoBlock url={v.fileUrl || v.url} title={v.title} placeholderLabel={t.video_ph} placeholderText={t.doc_ph} openLabel={youTube(v.url) ? t.watch : t.open_link} poster={illus[1] || null} />
-              <p className="text-sm text-smoke">{v.title}</p>
-            </div>
-          )) : <VideoBlock title={t.video} placeholderLabel={t.video_ph} placeholderText={t.doc_ph} poster={illus[1] || null} />}
-        </div>
+        {p.videos.length > 0 && (
+          <div className="flex flex-col gap-8">
+            <Reveal><p className="kicker">{t.video}</p><h2 className="display-m mt-3">{t.video}</h2></Reveal>
+            {p.videos.map((v, i) => (
+              <div key={i} className="flex flex-col gap-3">
+                <VideoBlock url={v.fileUrl || v.url} title={v.title} placeholderLabel={t.video_ph} placeholderText={t.doc_ph} openLabel={youTube(v.url) ? t.watch : t.open_link} poster={illus[1] || null} />
+                <p className="text-sm text-smoke">{v.title}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Tribute */}
