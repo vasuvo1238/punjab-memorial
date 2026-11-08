@@ -84,6 +84,10 @@
       {
         "title": "The Tribune, 10 Sep 2023",
         "url": "https://www.tribuneindia.com/news/bathinda/anti-drug-panel-member-killed-in-bathinda-543153/amp"
+      },
+      {
+        "title": "The Tribune, 11 Sep 2023",
+        "url": "https://www.tribuneindia.com/news/punjab/anti-drug-panel-member-killed-in-bathinda-543153"
       }
     ]
   },
@@ -129,7 +133,7 @@
     "status": "reported",
     "stand": "Passed information on chitta sellers to the police.",
     "standPa": "ਚਿੱਟਾ ਵੇਚਣ ਵਾਲਿਆਂ ਬਾਰੇ ਪੁਲਿਸ ਨੂੰ ਜਾਣਕਾਰੀ ਦਿੱਤੀ।",
-    "story": "Mahinder Singh was the sarpanch of Buta Chhanna and a leader of the Jamhoori Kisan Sabha. Villagers said he regularly gave the police information about people selling chitta as part of the state's anti-drug campaign. On 28 February 2026, five men who had been waiting in the fields attacked him as he walked there with his wife. He suffered severe head injuries and died on 7 March. Three of the five accused were arrested, and villagers asked that a school be named after him.",
+    "story": "Mahinder Singh was the sarpanch of Buta Chhanna and a leader of the Jamhoori Kisan Sabha. Villagers said he regularly gave the police information about people selling chitta as part of the state's anti-drug campaign. On 28 February 2026, five men who had been waiting in the fields attacked him as he walked there with his wife. He suffered severe head injuries and died on 7 March. Fellow farm-union leaders said he had gone to the SHO and the DSP close to fifty times, and alleged that his name was passed back to the people he had named. Three of the five accused were arrested, and villagers asked that a school be named after him.",
     "storyPa": null,
     "disputedNote": null,
     "portrait": null,
@@ -140,6 +144,14 @@
       {
         "title": "PTC News, 7 Mar 2026",
         "url": "https://www.ptcnews.tv/punjab-2/punjab-sarpanch-beaten-to-death-by-drug-peddlers-in-jalandhar-family-seeks-martyr-status-4422155"
+      },
+      {
+        "title": "The Tribune, 2 Mar 2026 (the attack, before he died)",
+        "url": "https://www.tribuneindia.com/news/jalandhar/mahatpur-sarpanch-attacked-after-repeatedly-reporting-drug-peddlers/"
+      },
+      {
+        "title": "ThePrint ground report, Oct 2026",
+        "url": "https://theprint.in/ground-reports/punjab-gangsters-village-sarpanches/2879862/"
       }
     ]
   },
@@ -208,6 +220,10 @@
       {
         "title": "Tehelka",
         "url": "https://tehelka.com/punjab-anti-drug-crusader-shot-dead-in-broad-daylight/"
+      },
+      {
+        "title": "Punjabi Tribune editorial, 'ਨਸ਼ਾ ਵਿਰੋਧੀ ਕਾਰਕੁਨ ਦਾ ਕਤਲ'",
+        "url": "https://www.punjabitribuneonline.com/news/editorials/murder-of-anti-drug-activist"
       }
     ]
   },
@@ -244,6 +260,46 @@
       {
         "title": "Republic, 20 Oct 2026",
         "url": "https://www.republicworld.com/india/amit-shah-meets-family-of-bikramjit-singh-in-gurdaspur-allegedly-killed-for-raising-voice-against-drug-trade-2026-10-20-139282"
+      },
+      {
+        "title": "The Tribune, 17 Oct 2026",
+        "url": "https://www.tribuneindia.com/news/punjab/anti-drug-activist-murdered-in-batala/"
+      }
+    ]
+  },
+  {
+    "slug": "gurdeep-singh",
+    "name": "Constable Gurdeep Singh",
+    "namePa": "ਕਾਂਸਟੇਬਲ ਗੁਰਦੀਪ ਸਿੰਘ",
+    "nickname": null,
+    "age": null,
+    "dateOfDeath": "2019-10-01",
+    "village": "Jandiala",
+    "villagePa": "ਜੰਡਿਆਲਾ",
+    "district": "Amritsar",
+    "role": "police",
+    "status": "reported",
+    "stand": "Went in as the decoy buyer so the peddlers would come out into the open.",
+    "standPa": "ਤਸਕਰਾਂ ਨੂੰ ਬਾਹਰ ਕੱਢਣ ਲਈ ਆਪ ਗਾਹਕ ਬਣ ਕੇ ਗਿਆ।",
+    "story": "Gurdeep Singh served with the Jalandhar team of the Punjab Police Special Task Force, the unit set up to go after the drug trade. On 1 October 2019 his team arranged a buy in order to draw peddlers out, and he took the most exposed part himself, posing as the customer. The sellers moved the meeting from Beas to Jandiala, then arrived as three men, one car and one motorcycle, and opened fire on the team. A bullet passed through his neck. The attackers abandoned the motorcycle and fled in the car. Two men were arrested within hours and remanded the following week. His is the earliest death this memorial has been able to document with more than one independent source.",
+    "storyPa": null,
+    "disputedNote": null,
+    "portrait": null,
+    "gallery": [],
+    "videos": [],
+    "familyQuotes": [],
+    "sources": [
+      {
+        "title": "The Tribune, 1 Oct 2019",
+        "url": "https://www.tribuneindia.com/news/archive/punjab/stf-cop-shot-dead-by-drug-peddlers-in-amritsar-was-posing-as-decoy-841066"
+      },
+      {
+        "title": "PTI via Business Standard, 1 Oct 2019",
+        "url": "https://business-standard.com/amp/article/pti-stories/stf-constable-killed-in-exchange-of-fire-with-smugglers-119100101240_1.html"
+      },
+      {
+        "title": "ANI, 7 Oct 2019 (remand of the two accused)",
+        "url": "https://www.devdiscourse.com/article/national/697909-amritsar-local-court-grants-5-day-police-remand-of-two-accused-in-cops-murder-case"
       }
     ]
   }

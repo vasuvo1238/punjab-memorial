@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getPeople } from "@/lib/people";
 import { getDict, type Lang } from "@/lib/i18n";
-import { ATTACKS, CAMPAIGN, ENFORCEMENT, pDistrict, SEIZURES, year } from "@/lib/format";
+import { ATTACKS, CAMPAIGN, ENFORCEMENT, EXCLUDED, pDistrict, SEIZURES, STOOD_UP, year } from "@/lib/format";
 import { media } from "@/lib/media";
 import { Bars } from "@/components/Bars";
 import { CopyNumber } from "@/components/Forms";
@@ -111,6 +111,39 @@ export default async function About({ params }: { params: Promise<{ lang: Lang }
               </div>
               <p className="text-[15px] leading-relaxed text-bone/80">{a.what}</p>
               <a className="link mt-auto text-[13.5px]" href={a.url} target="_blank" rel="noopener">{t.attacks_source}: {a.source} ↗</a>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+      <section className="wrap border-t border-white/[0.06] py-[clamp(96px,12vw,160px)]">
+        <Reveal className="mb-12 flex flex-col gap-3">
+          <p className="kicker">{t.stood_kicker}</p>
+          <h2 className="display-m max-w-[18ch]">{t.stood_title}</h2>
+          <p className="lede max-w-[54ch] text-bone/70">{t.stood_sub}</p>
+        </Reveal>
+        <ul className="m-0 grid list-none gap-5 p-0 md:grid-cols-2">
+          {STOOD_UP.map((v, i) => (
+            <Reveal key={v.place} as="li" delay={i * 0.08} className="panel flex flex-col gap-4 border-candle/20 p-7 sm:p-8">
+              <p className="font-display text-[26px] leading-tight text-candle">{v.place}</p>
+              <p className="text-[15px] leading-relaxed text-bone/80">{v.what}</p>
+              <a className="link mt-auto text-[13.5px]" href={v.url} target="_blank" rel="noopener">{t.attacks_source}: {v.source} ↗</a>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+      <section className="wrap border-t border-white/[0.06] py-[clamp(96px,12vw,160px)]">
+        <Reveal className="mb-12 flex flex-col gap-3">
+          <p className="kicker">{t.excl_kicker}</p>
+          <h2 className="display-m max-w-[20ch]">{t.excl_title}</h2>
+          <p className="lede max-w-[58ch] text-bone/70">{t.excl_sub}</p>
+        </Reveal>
+        <ul className="m-0 flex list-none flex-col gap-0 p-0">
+          {EXCLUDED.map((e, i) => (
+            <Reveal key={e.who} as="li" delay={i * 0.06} className="flex flex-col gap-2 border-b border-white/[0.06] py-7 md:flex-row md:gap-10">
+              <p className="font-display text-[20px] leading-snug text-bone md:w-[34%] md:shrink-0">{e.who}</p>
+              <p className="text-[15px] leading-relaxed text-smoke md:flex-1">{e.what}</p>
             </Reveal>
           ))}
         </ul>

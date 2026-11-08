@@ -44,10 +44,75 @@ export const ATTACKS: { date: string; place: string; what: string; source: strin
     url: "https://www.etvbharat.com/en/state/punjab-village-anti-drug-committee-member-shot-in-barnala-injured-enn26110801296",
   },
   {
+    date: "2026-10-15",
+    place: "Mari Pannuan, Gurdaspur",
+    what: "Nishan Singh and Gurmukh Singh were attacked with sharp weapons alongside Bikramjit Singh and survived. They were treated at the Bham community health centre.",
+    source: "The Tribune, 17 Oct 2026",
+    url: "https://www.tribuneindia.com/news/punjab/anti-drug-activist-murdered-in-batala/",
+  },
+  {
+    date: "2025-06-03",
+    place: "Bhai Bakhtaur, Bathinda",
+    what: "Ranveer Singh, a former Army man on the village anti-drug committee, was beaten until both his legs were broken. His village answered by putting up a poster offering the whole village for sale.",
+    source: "The Tribune, 3 Jun 2025",
+    url: "https://www.tribuneindia.com/news/punjab/village-for-sale-residents-put-up-poster-in-protest-against-drug-trade",
+  },
+  {
+    date: "2025-02-25",
+    place: "Narangwal Kalan, Ludhiana",
+    what: "Manjinder Singh, sarpanch and head of the village Nasha Virodhi Committee, was threatened by name after handing the police recordings of threat calls. No case was registered against those he named.",
+    source: "The Tribune, 26 Feb 2025",
+    url: "https://www.tribuneindia.com/news/punjab/narangwal-kalan-residents-support-village-sarpanch-after-threat-from-drug-traders",
+  },
+  {
     date: "2019-12-19",
     place: "Ghagga, Sri Muktsar Sahib",
     what: "Two anti-drug committee members were attacked and hospitalised. The Tribune counted three more attacks on committees in the same district that year, at Ghagga, Shamkhera and Kotli Ablu.",
     source: "The Tribune, 21 Dec 2019",
     url: "https://www.tribuneindia.com/news/punjab/no-let-up-in-attacks-on-anti-drug-panels-14857",
+  },
+];
+
+/** Attacks whose target survived and whose village answered publicly. Hope belongs on this page too. */
+export const STOOD_UP: { place: string; what: string; source: string; url: string }[] = [
+  {
+    place: "Narangwal Kalan, Ludhiana",
+    what: "When their sarpanch was threatened for stopping drugs at the village edge, residents met across party lines and said publicly that they stood with him, and that they would take the fight to its end.",
+    source: "The Tribune, 26 Feb 2025",
+    url: "https://www.tribuneindia.com/news/punjab/narangwal-kalan-residents-support-village-sarpanch-after-threat-from-drug-traders",
+  },
+  {
+    place: "Bhai Bakhtaur, Bathinda",
+    what: "After a committee member's legs were broken, the village hung a hand-painted poster declaring itself for sale, rather than live beside the trade in silence.",
+    source: "The Tribune, 3 Jun 2025",
+    url: "https://www.tribuneindia.com/news/punjab/village-for-sale-residents-put-up-poster-in-protest-against-drug-trade",
+  },
+  {
+    place: "Attari, Amritsar",
+    what: "Harpreet Singh, sarpanch of a village on the border itself, named the people he says bring heroin across and sell it, on camera, after surviving a third attempt on his life.",
+    source: "The Tribune",
+    url: "https://www.tribuneindia.com/news/top-headlines/attari-sarpanch-fighting-cross-border-drug-mafia-alleges-third-attempt-on-life/",
+  },
+  {
+    place: "Dhilwan Khurd, Faridkot",
+    what: "The Nasha Roko Committee that Harbhagwan Singh died for is still standing, and his photograph hangs where it meets.",
+    source: "The Tribune",
+    url: "https://www.tribuneindia.com/news/punjab/standing-up-against-drugs-in-punjab-545079",
+  },
+];
+
+/** Deaths this memorial deliberately leaves off the wall, and why. Named so the choice can be checked. */
+export const EXCLUDED: { who: string; what: string }[] = [
+  {
+    who: "Three sarpanches killed in Tarn Taran and Moga, 2026",
+    what: "Jarmal Singh, Harbinder Singh and Harwinder Singh Happy were killed within ten weeks of each other. Reporting attributes these to extortion, a gang claim and a personal dispute, not to the drug trade.",
+  },
+  {
+    who: "Six police ASIs shot in the border districts, 2026",
+    what: "Four of them died. Police attribute the shootings to handlers abroad, a gangster network and one inter-gang rivalry. None of the reporting establishes a narcotics link.",
+  },
+  {
+    who: "Bystanders killed by peddlers' bullets and vehicles",
+    what: "People such as Gurjit Singh of Rasulpur, killed by a fleeing peddler's shot in June 2025, were not opposing anyone. They are the drug trade's dead, but this wall is for those who stood up to it.",
   },
 ];
