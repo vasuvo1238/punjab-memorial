@@ -4,7 +4,7 @@ import { getPeople, getSettings } from "@/lib/people";
 import { getApprovedTributeCount, getCandleCounts } from "@/lib/counts";
 import { getDict, type Lang } from "@/lib/i18n";
 import { fmtDate, pDistrict, pName, pVillage, year } from "@/lib/format";
-import { media } from "@/lib/media";
+import { film, media } from "@/lib/media";
 import { HeroMedia } from "@/components/HeroMedia";
 import { PersonCard } from "@/components/PersonCard";
 import { Portrait } from "@/components/Portrait";
@@ -25,6 +25,7 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
   const totalDiyas = Object.values(counts).reduce((a, b) => a + b, 0);
   const featured = people.find((p) => p.slug === "parvinder-singh-jhota") || people[0];
   const hero = media("hero"), diya = media("diya"), vigil = media("vigil"), dusk = media("dusk");
+  const tribute = film();
 
   return (
     <>
@@ -170,8 +171,18 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
             <p className="kicker">{t.video}</p>
             <h2 className="display-m">{t.doc_title}</h2>
             <p className="lede text-bone/70">{t.doc_sub}</p>
+            {!settings.documentaryUrl && tribute && <p className="text-[13px] text-smoke">{t.film_note}</p>}
           </Reveal>
-          <Reveal delay={0.1}><VideoBlock url={settings.documentaryUrl} title={t.doc_title} placeholderLabel={t.video_ph} placeholderText={t.doc_ph} openLabel={t.watch} poster={diya} /></Reveal>
+          <Reveal delay={0.1}>
+            <VideoBlock
+              url={settings.documentaryUrl || tribute?.src}
+              title={t.doc_title}
+              placeholderLabel={t.video_ph}
+              placeholderText={t.doc_ph}
+              openLabel={t.watch}
+              poster={tribute?.poster ? { src: tribute.poster, alt: t.doc_title } : diya}
+            />
+          </Reveal>
         </div>
       </section>
 

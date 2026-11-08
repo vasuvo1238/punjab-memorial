@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getPeople } from "@/lib/people";
 import { getDict, type Lang } from "@/lib/i18n";
-import { pDistrict, SEIZURES, year } from "@/lib/format";
+import { ATTACKS, CAMPAIGN, ENFORCEMENT, pDistrict, SEIZURES, year } from "@/lib/format";
 import { media } from "@/lib/media";
 import { Bars } from "@/components/Bars";
 import { CopyNumber } from "@/components/Forms";
@@ -53,8 +53,22 @@ export default async function About({ params }: { params: Promise<{ lang: Lang }
       <section className="on-bone bg-bone text-ink">
         <div className="wrap py-[clamp(96px,12vw,160px)]">
           <Reveal className="mb-14 flex flex-col gap-3"><p className="label text-ember-deep">{t.charts_title}</p><h2 className="display-m max-w-[18ch] text-ink">{t.charts_title}</h2></Reveal>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {([[t.by_year, <Bars key="y" rows={yearRows} onBone />, t.cases_note], [t.by_district, <Bars key="d" rows={districtRows} onBone />, t.cases_note], [t.seizure_title, <Bars key="s" rows={SEIZURES} format="kg" onBone />, t.seizure_note]] as const).map(([title, chart, note], i) => (
+          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+            {([
+              [t.by_year, <Bars key="y" rows={yearRows} onBone />, t.cases_note],
+              [t.by_district, <Bars key="d" rows={districtRows} onBone />, t.cases_note],
+              [t.seizure_title, <Bars key="s" rows={SEIZURES} format="kg" onBone />, t.seizure_note],
+              [t.enforce_title, (
+                <div key="e" className="flex flex-col gap-6">
+                  {ENFORCEMENT.map((row) => (
+                    <div key={row.label} className="flex flex-col gap-3">
+                      <p className="font-mono text-[11.5px] uppercase tracking-[0.16em] text-stone">{row.label}{row.unit ? ` (${row.unit})` : ""}</p>
+                      <Bars rows={[[t.enforce_earlier, row.earlier], [t.enforce_later, row.later]]} format="kg" onBone />
+                    </div>
+                  ))}
+                </div>
+              ), t.enforce_note],
+            ] as const).map(([title, chart, note], i) => (
               <Reveal key={i} delay={i * 0.08} className="flex min-w-0 flex-col gap-6 rounded-[24px] border border-ink/10 bg-white/50 p-7 sm:p-8">
                 <h3 className="text-[28px] leading-tight text-ink">{title}</h3>
                 {chart}
@@ -66,6 +80,43 @@ export default async function About({ params }: { params: Promise<{ lang: Lang }
       </section>
 
       <section className="wrap py-[clamp(96px,12vw,160px)]">
+        <Reveal className="mb-12 flex flex-col gap-3">
+          <p className="kicker">{t.campaign_title}</p>
+          <h2 className="display-m max-w-[20ch]">{t.campaign_title}</h2>
+          <p className="lede max-w-[54ch] text-bone/70">{t.campaign_sub}</p>
+        </Reveal>
+        <div className="grid gap-px overflow-hidden rounded-[28px] bg-white/[0.08] md:grid-cols-3">
+          {CAMPAIGN.map(([figure, label], i) => (
+            <Reveal key={label} delay={i * 0.08} className="flex flex-col gap-3 bg-night p-8 sm:p-10">
+              <b className="font-display text-[clamp(40px,5vw,64px)] font-normal leading-none text-candle">{figure}</b>
+              <span className="text-[15px] text-bone/70">{label}</span>
+            </Reveal>
+          ))}
+        </div>
+        <p className="mt-6 max-w-[62ch] text-[13px] text-smoke">{t.campaign_note}</p>
+      </section>
+
+      <section className="wrap border-t border-white/[0.06] py-[clamp(96px,12vw,160px)]">
+        <Reveal className="mb-12 flex flex-col gap-3">
+          <p className="kicker">{t.attacks_title}</p>
+          <h2 className="display-m max-w-[16ch]">{t.attacks_title}</h2>
+          <p className="lede max-w-[54ch] text-bone/70">{t.attacks_sub}</p>
+        </Reveal>
+        <ul className="m-0 grid list-none gap-5 p-0 md:grid-cols-2">
+          {ATTACKS.map((a, i) => (
+            <Reveal key={a.date} as="li" delay={i * 0.08} className="panel flex flex-col gap-4 p-7 sm:p-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <p className="font-display text-[26px] leading-tight">{a.place}</p>
+                <time className="label text-smoke" dateTime={a.date}>{a.date.split("-").reverse().join("/")}</time>
+              </div>
+              <p className="text-[15px] leading-relaxed text-bone/80">{a.what}</p>
+              <a className="link mt-auto text-[13.5px]" href={a.url} target="_blank" rel="noopener">{t.attacks_source}: {a.source} ↗</a>
+            </Reveal>
+          ))}
+        </ul>
+      </section>
+
+      <section className="wrap border-t border-white/[0.06] py-[clamp(96px,12vw,160px)]">
         <Reveal className="mb-12 flex flex-col gap-3"><p className="kicker">{t.foot_help}</p><h2 className="display-m">{t.help_title}</h2><p className="lede max-w-[50ch] text-bone/70">{t.help_line}</p></Reveal>
         <div className="grid gap-5 md:grid-cols-3">
           {help.map(([n, title, body], i) => (

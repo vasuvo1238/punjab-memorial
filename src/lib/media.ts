@@ -25,6 +25,17 @@ export function media(key: MediaKey): MediaImage {
   return existsSync(p) ? { src: `/images/${item.file}`, alt: item.alt } : null;
 }
 
+/**
+ * The memorial film in /public/video: a short tribute cut from AI-generated footage and title cards.
+ * Sanity overrides it as soon as real documentary footage is uploaded.
+ */
+export function film(): { src: string; poster: string | null } | null {
+  const dir = path.join(process.cwd(), "public", "video");
+  if (!existsSync(path.join(dir, "memorial-film.mp4"))) return null;
+  const poster = existsSync(path.join(dir, "memorial-film-poster.jpg")) ? "/video/memorial-film-poster.jpg" : null;
+  return { src: "/video/memorial-film.mp4", poster };
+}
+
 /** Ordered set used to illustrate a person's page when no consented photos exist yet. */
 export function illustrativeSet(): { key: MediaKey; img: NonNullable<MediaImage> }[] {
   return (["lane", "dusk", "vigil", "diya", "phulkari", "hero"] as MediaKey[])
