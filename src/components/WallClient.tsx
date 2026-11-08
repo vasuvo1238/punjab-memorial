@@ -13,7 +13,13 @@ export function WallClient({ rows, lang, t }: { rows: Row[]; lang: Lang; t: Dict
   const [d, setD] = useState("");
   const [y, setY] = useState("");
   const districts = useMemo(() => [...new Set(rows.map((r) => r.district))].sort(), [rows]);
-  const years = useMemo(() => [...new Set(rows.map((r) => r.year))].sort().reverse(), [rows]);
+  // Every year in the span, so a year with no recorded death reads as a gap in the record, not a missing filter.
+  const years = useMemo(() => {
+    const ns = rows.map((r) => Number(r.year));
+    const out: { y: string; n: number }[] = [];
+    for (let x = Math.max(...ns); x >= Math.min(...ns); x--) out.push({ y: String(x), n: ns.filter((v) => v === x).length });
+    return out;
+  }, [rows]);
   const needle = q.trim().toLowerCase();
   const shown = rows.filter((r) => (!d || r.district === d) && (!y || r.year === y) && (!needle || r.search.includes(needle)));
   const chip = (active: boolean) => `rounded-full border px-4 py-2 text-[14px] transition ${active ? "border-bone bg-bone text-night" : "border-white/10 text-bone/75 hover:border-white/30 hover:text-bone"}`;
@@ -30,8 +36,12 @@ export function WallClient({ rows, lang, t }: { rows: Row[]; lang: Lang; t: Dict
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
             <span className="label shrink-0 pr-1 text-smoke">{t.years_label}</span>
             <button type="button" className={chip(!y)} onClick={() => setY("")} aria-pressed={!y}>{t.all}</button>
-            {years.map((x) => <button key={x} type="button" className={`${chip(y === x)} tabular-nums`} onClick={() => setY(y === x ? "" : x)} aria-pressed={y === x}>{x}</button>)}
-            <label className="ml-2 shrink-0">
+            {years.map(({ y: x, n }) => (
+              <button key={x} type="button" disabled={n === 0} title={n === 0 ? t.year_none : undefined}
+                className={`${chip(y === x)} tabular-nums ${n === 0 ? "cursor-default opacity-35" : ""}`}
+                onClick={() => n && setY(y === x ? "" : x)} aria-pressed={y === x}>{x}</button>
+            ))}
+            <label className="relative ml-2 shrink-0">
               <span className="sr-only">{t.district}</span>
               <select id="wall-district" className="input !w-auto !rounded-full !py-2 !pr-9 text-[14px]" value={d} onChange={(e) => setD(e.target.value)}>
                 <option value="">{t.district}: {t.all}</option>
