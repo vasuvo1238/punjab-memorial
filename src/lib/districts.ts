@@ -1,0 +1,27 @@
+/** Punjab districts: [latitude, longitude] of the district headquarters, and the Gurmukhi name. */
+export const DISTRICTS: Record<string, { lat: number; lng: number; pa: string }> = {
+  Amritsar: { lat: 31.634, lng: 74.872, pa: "ਅੰਮ੍ਰਿਤਸਰ" },
+  Barnala: { lat: 30.378, lng: 75.546, pa: "ਬਰਨਾਲਾ" },
+  Bathinda: { lat: 30.211, lng: 74.945, pa: "ਬਠਿੰਡਾ" },
+  Faridkot: { lat: 30.675, lng: 74.756, pa: "ਫ਼ਰੀਦਕੋਟ" },
+  "Fatehgarh Sahib": { lat: 30.649, lng: 76.392, pa: "ਫ਼ਤਹਿਗੜ੍ਹ ਸਾਹਿਬ" },
+  Fazilka: { lat: 30.403, lng: 74.028, pa: "ਫ਼ਾਜ਼ਿਲਕਾ" },
+  Ferozepur: { lat: 30.925, lng: 74.613, pa: "ਫ਼ਿਰੋਜ਼ਪੁਰ" },
+  Gurdaspur: { lat: 32.042, lng: 75.403, pa: "ਗੁਰਦਾਸਪੁਰ" },
+  Hoshiarpur: { lat: 31.532, lng: 75.917, pa: "ਹੁਸ਼ਿਆਰਪੁਰ" },
+  Jalandhar: { lat: 31.326, lng: 75.576, pa: "ਜਲੰਧਰ" },
+  Kapurthala: { lat: 31.38, lng: 75.381, pa: "ਕਪੂਰਥਲਾ" },
+  Ludhiana: { lat: 30.901, lng: 75.857, pa: "ਲੁਧਿਆਣਾ" },
+  Malerkotla: { lat: 30.531, lng: 75.88, pa: "ਮਾਲੇਰਕੋਟਲਾ" },
+  Mansa: { lat: 29.988, lng: 75.401, pa: "ਮਾਨਸਾ" },
+  Moga: { lat: 30.817, lng: 75.17, pa: "ਮੋਗਾ" },
+  Mohali: { lat: 30.704, lng: 76.718, pa: "ਮੋਹਾਲੀ" },
+  Pathankot: { lat: 32.274, lng: 75.652, pa: "ਪਠਾਨਕੋਟ" },
+  Patiala: { lat: 30.34, lng: 76.386, pa: "ਪਟਿਆਲਾ" },
+  Rupnagar: { lat: 30.966, lng: 76.533, pa: "ਰੂਪਨਗਰ" },
+  Sangrur: { lat: 30.245, lng: 75.844, pa: "ਸੰਗਰੂਰ" },
+  "SBS Nagar": { lat: 31.125, lng: 76.118, pa: "ਸ਼ਹੀਦ ਭਗਤ ਸਿੰਘ ਨਗਰ" },
+  "Sri Muktsar Sahib": { lat: 30.474, lng: 74.516, pa: "ਸ੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ" },
+  "Tarn Taran": { lat: 31.452, lng: 74.928, pa: "ਤਰਨ ਤਾਰਨ" },
+};
+export const DISTRICT_NAMES = Object.keys(DISTRICTS).sort();

@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/*
+  Identity: "Where the light stays."
+  A night memorial. Warm ink-black ground, candle gold as the only light source,
+  bone-white paper for long reading, phulkari silk as the one ornament.
+  Display: Instrument Serif (very large, tight). Body: Geist. Labels and dates: Geist Mono.
+  Gurmukhi: Noto Serif Gurmukhi for display, Mukta Mahee for body.
+*/
+@theme {
+  --color-night: #0a0c10;
+  --color-night-2: #11141b;
+  --color-night-3: #181c25;
+  --color-ash: #262b36;
+  --color-bone: #f3eee4;
+  --color-bone-2: #e9e2d4;
+  --color-ink: #16181d;
+  --color-smoke: #8d8a84;      /* muted text on night */
+  --color-stone: #5e5b55;      /* muted text on bone */
+  --color-candle: #f2b35a;
+  --color-candle-hi: #ffd58f;
+  --color-ember: #d9772f;
+  --color-ember-deep: #9a4a14; /* gold for text on bone, AA */
+  --color-madder: #6e1d1f;     /* phulkari ground */
+  --color-dispute: #8fb7bf;
+  --color-dispute-deep: #2f5d66;
+
+  --font-display: "Instrument Serif", "Noto Serif Gurmukhi", Georgia, serif;
+  --font-sans: "Geist Variable", "Mukta Mahee", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-gurmukhi: "Noto Serif Gurmukhi", serif;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; background: var(--color-night); color-scheme: dark; }
+  body { @apply bg-night font-sans text-bone antialiased; font-size: 17px; line-height: 1.65; font-feature-settings: "ss01", "cv11"; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.015em; line-height: 1.02; text-wrap: balance; }
+  ::selection { background: var(--color-candle); color: var(--color-night); }
+  :focus-visible { outline: 2px solid var(--color-candle); outline-offset: 3px; border-radius: 2px; }
+  :lang(pa) h1, :lang(pa) h2, :lang(pa) h3 { font-family: var(--font-gurmukhi); letter-spacing: 0; line-height: 1.25; }
+  :lang(pa) body { line-height: 1.8; }
+  img { max-width: 100%; }
+}
+
+@utility label { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+@utility btn { display: inline-flex; align-items: center; justify-content: center; gap: .625rem; border-radius: 9999px; padding: .875rem 1.5rem; font-size: 15px; font-weight: 500; letter-spacing: -0.005em; transition: all .3s var(--ease-out-soft); }
+@utility pill { font-family: var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; display: inline-flex; align-items: center; gap: .375rem; border-radius: 9999px; padding: .25rem .625rem; font-size: 10.5px; }
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12; }
+  .narrow { @apply mx-auto w-full max-w-[760px] px-5 sm:px-8; }
+  .kicker { @apply label text-candle; }
+  .display-xl { font-size: clamp(52px, 9vw, 148px); }
+  .display-l { font-size: clamp(42px, 6.4vw, 96px); }
+  .display-m { font-size: clamp(34px, 4.4vw, 64px); }
+  .display-s { font-size: clamp(28px, 3vw, 40px); }
+  .lede { font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55; }
+
+  .btn-candle { @apply btn bg-candle text-night hover:bg-candle-hi; box-shadow: 0 0 0 1px rgb(255 213 143 / .4), 0 10px 40px -10px rgb(242 179 90 / .55); }
+  .btn-glass { @apply btn border border-white/15 bg-white/[0.04] text-bone backdrop-blur-md hover:border-white/35 hover:bg-white/[0.08]; }
+  .btn-ink { @apply btn bg-ink text-bone hover:bg-black; }
+  .btn-outline-ink { @apply btn border border-ink/20 text-ink hover:border-ink/50; }
+
+  .field { @apply flex flex-col gap-2 text-[13px] font-medium text-smoke; }
+  .input { @apply w-full rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3.5 text-base text-bone placeholder:text-smoke/60 transition; }
+  .input:focus { outline: none; border-color: rgb(242 179 90 / .6); background: rgb(255 255 255 / .06); box-shadow: 0 0 0 4px rgb(242 179 90 / .12); }
+  .on-bone .field { @apply text-stone; }
+  .on-bone .input { @apply border-ink/12 bg-white/60 text-ink placeholder:text-stone/60; }
+
+  .hairline { border-color: rgb(255 255 255 / .08); }
+  .panel { @apply rounded-[22px] border border-white/[0.07] bg-night-2/80; }
+  .pill-reported { @apply pill bg-candle/10 text-candle ring-1 ring-candle/25; }
+  .pill-disputed { @apply pill bg-dispute/10 text-dispute ring-1 ring-dispute/25; }
+  .on-bone .pill-reported { @apply bg-ember-deep/10 text-ember-deep ring-ember-deep/25; }
+  .on-bone .pill-disputed { @apply bg-dispute-deep/10 text-dispute-deep ring-dispute-deep/25; }
+  .placeholder-tag { @apply label absolute left-3 top-3 z-10 rounded-full bg-black/55 px-2.5 py-1 text-[10px] text-candle-hi backdrop-blur; }
+  .link-candle { @apply text-candle underline decoration-candle/30 underline-offset-[5px] transition hover:decoration-candle; }
+  .on-bone .link-candle { @apply text-ember-deep decoration-ember-deep/30 hover:decoration-ember-deep; }
+}
+
+/* Film grain over dark sections: keeps large dark areas from looking flat and digital */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: ""; position: absolute; inset: -50%; z-index: 1; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@media (prefers-reduced-motion: no-preference) { .grain::after { animation: grain 1.2s steps(6) infinite; } }
+@keyframes grain { 0%,100% { transform: translate(0,0) } 20% { transform: translate(-3%,2%) } 40% { transform: translate(2%,-3%) } 60% { transform: translate(-2%,-1%) } 80% { transform: translate(3%,3%) } }
+
+/* Phulkari: gold silk diamonds on madder, the site's single ornament */
+.phulkari {
+  height: 18px;
+  background:
+    linear-gradient(45deg, transparent 38%, var(--color-candle) 38% 62%, transparent 62%) 0 0/18px 18px,
+    linear-gradient(-45deg, transparent 38%, var(--color-candle) 38% 62%, transparent 62%) 0 0/18px 18px,
+    var(--color-madder);
+  opacity: .9;
+}
+.phulkari-line {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--color-candle) 0 6px, transparent 6px 12px);
+  opacity: .45;
+}
+.phulkari-frame { position: relative; }
+.phulkari-frame::before {
+  content: ""; position: absolute; inset: 10px; pointer-events: none; border-radius: inherit; z-index: 2;
+  border: 1px solid rgb(242 179 90 / .18);
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0); mask-composite: exclude;
+}
+
+/* Candle light */
+.glow-candle { background: radial-gradient(60% 60% at 50% 55%, rgb(242 179 90 / .28), rgb(217 119 47 / .08) 45%, transparent 70%); }
+@keyframes flicker { 0%,100% { transform: scale(1,1) translateY(0) } 25% { transform: scale(.97,1.05) translateY(-.5px) } 50% { transform: scale(1.02,.97) } 75% { transform: scale(.98,1.04) translateY(-.3px) } }
+@keyframes breathe { 0%,100% { opacity: .75 } 50% { opacity: 1 } }
+.flame { transform-origin: 50% 85%; }
+.is-lit .flame { animation: flicker 2.6s ease-in-out infinite; }
+.is-lit .halo { animation: breathe 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .is-lit .flame, .is-lit .halo { animation: none; } }
+
+/* Engraved names: letters cut into stone, lit from within when the light passes */
+.engraved { color: rgb(243 238 228 / .18); text-shadow: 0 1px 0 rgb(255 255 255 / .04), 0 -1px 0 rgb(0 0 0 / .6); transition: color .9s var(--ease-out-soft), text-shadow .9s var(--ease-out-soft); }
+.engraved.lit, .engraved:hover { color: var(--color-candle-hi); text-shadow: 0 0 22px rgb(242 179 90 / .55), 0 0 2px rgb(255 213 143 / .8); }
+
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+.marquee { animation: marquee 80s linear infinite; }
+.marquee-rev { animation: marquee 95s linear infinite reverse; }
+@media (prefers-reduced-motion: reduce) { .marquee, .marquee-rev { animation: none; } }
+
+/* Ken Burns for hero imagery */
+@keyframes kenburns { from { transform: scale(1.08) translate3d(0,0,0) } to { transform: scale(1.18) translate3d(-1.5%,-1%,0) } }
+.kenburns { animation: kenburns 32s ease-out both alternate infinite; }
+@media (prefers-reduced-motion: reduce) { .kenburns { animation: none; transform: scale(1.08); } }
+
+.mapboxgl-popup-content { background: var(--color-night-2) !important; color: var(--color-bone); border-radius: 14px !important; border: 1px solid rgb(255 255 255 / .08); font-family: var(--font-sans); }
+.mapboxgl-ctrl-attrib { background: rgb(10 12 16 / .6) !important; }
+.mapboxgl-ctrl-attrib a { color: var(--color-smoke) !important; }
+
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* Gurmukhi must never be letter-spaced or set in the Latin mono: it breaks the joining headline (shirorekha). */
+:lang(pa) .label, :lang(pa) .kicker, :lang(pa) .pill, :lang(pa) .pill-reported, :lang(pa) .pill-disputed, :lang(pa) .placeholder-tag {
+  font-family: "Mukta Mahee", var(--font-sans); letter-spacing: 0; text-transform: none; font-size: 13px; font-weight: 600;
+}
+.label[lang="en"], .label :lang(en) { font-family: var(--font-mono); }
