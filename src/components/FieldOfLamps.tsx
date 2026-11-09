@@ -55,7 +55,10 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
     people.forEach((_, i) => {
       pts.push({ x: (i % 2 ? 1 : -1) * (1.5 + rnd() * 0.5), z: START + i * SPACING, r: 1, phase: rnd() * 6.28, speed: 0.7 + rnd() * 0.5, named: i + 1 });
     });
-    for (let i = 0; i < 620; i++) {
+    // Fewer ambient lamps on a small screen: the field still reads as a crowd,
+    // and a budget phone keeps its frame rate.
+    const AMBIENT = window.innerWidth < 520 ? 320 : 620;
+    for (let i = 0; i < AMBIENT; i++) {
       const z = 3 + rnd() * (endZ + 46);
       const x = (rnd() - 0.5) * 54;
       if (Math.abs(x) < 3.2) continue; // keep the walked path clear
