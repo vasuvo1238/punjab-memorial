@@ -101,13 +101,21 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
       ctx.fillStyle = "#070810";
       ctx.fillRect(0, 0, w, h);
       // haze sitting on the ground, so the lamps feel placed on something
-      const haze = ctx.createLinearGradient(0, cy, 0, h);
-      haze.addColorStop(0, "rgba(242,179,90,0.05)");
-      haze.addColorStop(1, "rgba(7,8,16,0)");
-      ctx.fillStyle = haze;
+      const sky = ctx.createLinearGradient(0, 0, 0, cy);
+      sky.addColorStop(0, "#05060d");
+      sky.addColorStop(1, "#0b0c18");
+      ctx.fillStyle = sky;
+      ctx.fillRect(0, 0, w, cy);
+      const ground = ctx.createLinearGradient(0, cy, 0, h);
+      ground.addColorStop(0, "rgba(242,179,90,0)");
+      ground.addColorStop(0.07, "rgba(242,179,90,0.10)");
+      ground.addColorStop(0.22, "rgba(90,66,38,0.09)");
+      ground.addColorStop(1, "rgba(5,6,13,0)");
+      ctx.fillStyle = ground;
       ctx.fillRect(0, cy, w, h - cy);
 
       ctx.globalCompositeOperation = "lighter";
+      let activeX = cx, activeY = cy, activeV = 0;
       for (const q of pts) {
         const dz = q.z - camZ;
         if (dz < 0.7 || dz > 62) continue;
@@ -117,11 +125,29 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
         const flick = 0.82 + 0.18 * Math.sin(t * q.speed * 2.4 + q.phase) * Math.sin(t * q.speed * 1.1 + q.phase * 2);
         const near = dz < 2.4 ? dz / 2.4 : 1;
         const far = Math.min(1, 26 / dz);
-        const a = q.r * flick * near * far * (q.named ? 1 : 0.55);
+        // the lamp you are level with swells and the rest step back, so the eye has a subject
+        const focus = q.named ? Math.max(0, 1 - Math.abs(dz - 4) / 4.5) : 0;
+        const a = q.r * flick * near * far * (q.named ? 1 : 0.42 - 0.18 * activeV);
         if (a <= 0.012) continue;
-        const px = Math.min(h * 0.62, Math.max(5, q.r * s * 0.95) * (q.named ? 3.3 : 2.5));
-        ctx.globalAlpha = Math.min(1, a);
+        const px = Math.min(h * 0.62, Math.max(5, q.r * s * 0.95) * (q.named ? 3.3 + focus * 1.6 : 2.5));
+        if (focus > activeV) { activeV = focus; activeX = sx; activeY = sy; }
+        ctx.globalAlpha = Math.min(1, a * (1 + focus * 0.5));
         ctx.drawImage(q.named ? bright : dim, sx - px / 2, sy - px / 2, px, px);
+      }
+      if (activeV > 0.02) {
+        const rad = Math.max(150, w * 0.17);
+        ctx.save();
+        ctx.translate(activeX, activeY);
+        ctx.scale(1, 2.6);
+        const col = ctx.createRadialGradient(0, 0, 0, 0, 0, rad);
+        col.addColorStop(0, `rgba(242,179,90,${0.16 * activeV})`);
+        col.addColorStop(0.45, `rgba(242,179,90,${0.05 * activeV})`);
+        col.addColorStop(1, "rgba(242,179,90,0)");
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.arc(0, 0, rad, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
@@ -134,7 +160,9 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
         let v = 0;
         if (dz > 1.4 && dz < 6.8) v = dz < 3 ? ease((dz - 1.4) / 1.6) : dz > 5.4 ? ease((6.8 - dz) / 1.4) : 1;
         el.style.opacity = String(v);
-        el.style.transform = `translate3d(0, ${(1 - v) * 16}px, 0)`;
+        const gutter = Math.min(w * 0.04, 48);
+        const lx = Math.max(0, Math.min(activeX - el.offsetWidth / 2, w - el.offsetWidth) - gutter);
+        el.style.transform = `translate3d(${v ? lx : 0}px, ${(1 - v) * 16}px, 0)`;
         el.style.visibility = v < 0.01 ? "hidden" : "visible";
       }
       if (tail.current) {
