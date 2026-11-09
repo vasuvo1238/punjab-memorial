@@ -89,7 +89,8 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
     const frame = (ms: number) => {
       if (!running) return;
       raf = requestAnimationFrame(frame);
-      if (!live || !w) return;
+      if (!w) { resize(); if (!w) return; }
+      if (!live) return;
 
       const box = host.getBoundingClientRect();
       const span = box.height - window.innerHeight;
