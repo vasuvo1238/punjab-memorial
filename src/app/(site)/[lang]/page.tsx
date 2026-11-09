@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getPeople, getSettings } from "@/lib/people";
 import { getApprovedTributeCount, getCandleCounts } from "@/lib/counts";
 import { getDict, type Lang } from "@/lib/i18n";
-import { fmtDate, pDistrict, pName, pVillage, year } from "@/lib/format";
+import { clippings, fmtDate, pDistrict, pName, pVillage, year } from "@/lib/format";
 import { film, media } from "@/lib/media";
 import { HeroMedia } from "@/components/HeroMedia";
 import { PersonCard } from "@/components/PersonCard";
@@ -11,7 +11,7 @@ import { Portrait } from "@/components/Portrait";
 import { CountUp, Reveal, SplitWords } from "@/components/Reveal";
 import { VideoBlock } from "@/components/VideoBlock";
 import { NameRiver } from "@/components/NameRiver";
-import { FieldOfLamps } from "@/components/FieldOfLamps";
+import { ArchiveScroll } from "@/components/ArchiveScroll";
 import { DiyaButton } from "@/components/Tribute";
 
 export const revalidate = 300;
@@ -92,18 +92,14 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
         <NameRiver lang={lang} names={people.map((p) => ({ slug: p.slug, name: p.name.replace(/^(Lambardar|Sarpanch|ASI) /, ""), pa: p.namePa || p.name }))} />
       </section>
 
-      <FieldOfLamps
+      <ArchiveScroll
         lang={lang}
-        title={t.lamps_kicker}
-        sub={t.lamps_title}
-        unnamed={t.lamps_unnamed}
-        people={people.map((p) => ({
-          slug: p.slug,
-          name: pName(p, "en").replace(/^(Lambardar|Sarpanch|ASI|Constable) /, ""),
-          pa: pName(p, "pa"),
-          year: year(p),
-          district: pDistrict(p.district, lang),
-        }))}
+        kicker={t.arch_kicker}
+        title={t.arch_title}
+        sub={t.arch_sub}
+        documents={t.arch_documents}
+        read={t.arch_read}
+        items={clippings(people, lang)}
       />
 
       {/* 5 · One story */}

@@ -116,3 +116,26 @@ export const EXCLUDED: { who: string; what: string }[] = [
     what: "People such as Gurjit Singh of Rasulpur, killed by a fleeing peddler's shot in June 2025, were not opposing anyone. They are the drug trade's dead, but this wall is for those who stood up to it.",
   },
 ];
+
+export type Clipping = { slug: string; person: string; personPa: string; meta: string; pub: string; date: string | null; note: string | null; url: string };
+
+/** Flattens every citation behind the wall into one list, newest reporting first. */
+export function clippings(people: { slug: string; name: string; namePa?: string | null; dateOfDeath: string; district: string; sources: { title: string; url: string }[] }[], lang: "en" | "pa" = "en"): Clipping[] {
+  const out: Clipping[] = [];
+  for (const p of people) {
+    for (const src of p.sources) {
+      let rest = src.title;
+      let note: string | null = null;
+      const paren = rest.match(/\s*\(([^)]+)\)\s*$/);
+      if (paren) { note = paren[1]; rest = rest.slice(0, paren.index).trim(); }
+      let pub = rest, date: string | null = null;
+      const comma = rest.indexOf(", ");
+      if (comma > -1 && /\d/.test(rest.slice(comma + 2))) {
+        pub = rest.slice(0, comma).trim();
+        date = rest.slice(comma + 2).trim();
+      }
+      out.push({ slug: p.slug, person: p.name, personPa: p.namePa || p.name, meta: `${p.dateOfDeath.slice(0, 4)} · ${pDistrict(p.district, lang)}`, pub, date, note, url: src.url });
+    }
+  }
+  return out;
+}
