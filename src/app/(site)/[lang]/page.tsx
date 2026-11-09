@@ -11,6 +11,7 @@ import { Portrait } from "@/components/Portrait";
 import { CountUp, Reveal, SplitWords } from "@/components/Reveal";
 import { VideoBlock } from "@/components/VideoBlock";
 import { NameRiver } from "@/components/NameRiver";
+import { FieldOfLamps } from "@/components/FieldOfLamps";
 import { DiyaButton } from "@/components/Tribute";
 
 export const revalidate = 300;
@@ -90,6 +91,20 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
         </div>
         <NameRiver lang={lang} names={people.map((p) => ({ slug: p.slug, name: p.name.replace(/^(Lambardar|Sarpanch|ASI) /, ""), pa: p.namePa || p.name }))} />
       </section>
+
+      <FieldOfLamps
+        lang={lang}
+        title={t.lamps_kicker}
+        sub={t.lamps_title}
+        unnamed={t.lamps_unnamed}
+        people={people.map((p) => ({
+          slug: p.slug,
+          name: pName(p, "en").replace(/^(Lambardar|Sarpanch|ASI|Constable) /, ""),
+          pa: pName(p, "pa"),
+          year: year(p),
+          district: pDistrict(p.district, lang),
+        }))}
+      />
 
       {/* 5 · One story */}
       <section className="wrap py-[clamp(96px,12vw,170px)]">
