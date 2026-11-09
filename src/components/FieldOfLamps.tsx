@@ -39,7 +39,6 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
   useEffect(() => {
     const canvas = cv.current, host = wrap.current;
     if (!canvas || !host) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
@@ -80,7 +79,7 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    let live = true, raf = 0;
+    let live = true, raf = 0, running = false;
     const io = new IntersectionObserver(([e]) => { live = e.isIntersecting; }, { rootMargin: "120px" });
     io.observe(host);
 
@@ -88,6 +87,7 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
     const ease = (t: number) => t * t * (3 - 2 * t);
 
     const frame = (ms: number) => {
+      if (!running) return;
       raf = requestAnimationFrame(frame);
       if (!live || !w) return;
 
@@ -142,15 +142,36 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
         tail.current.style.opacity = String(v);
       }
     };
-    raf = requestAnimationFrame(frame);
+    // The names are plain markup until the loop is actually running, so the section
+    // still reads without JS, and a mid-session motion-preference change cannot strand it.
+    const start = () => {
+      if (running) return;
+      running = true;
+      host.dataset.anim = "on";
+      raf = requestAnimationFrame(frame);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      delete host.dataset.anim;
+      for (const el of names.current) {
+        if (!el) continue;
+        el.style.opacity = ""; el.style.transform = ""; el.style.visibility = "";
+      }
+      if (tail.current) tail.current.style.opacity = "";
+    };
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => (mq.matches ? stop() : start());
+    mq.addEventListener("change", sync);
+    sync();
 
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
+    return () => { mq.removeEventListener("change", sync); cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
   }, [people]);
 
   return (
-    <section ref={wrap} className="relative bg-[#070810]" style={{ height: `${Math.max(300, people.length * 46 + 130)}vh` }} aria-labelledby="lamps-h">
+    <section ref={wrap} className="group/lamps relative bg-[#070810]" style={{ height: `${Math.max(300, people.length * 46 + 130)}vh` }} aria-labelledby="lamps-h">
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden">
-        <canvas ref={cv} className="absolute inset-0 h-full w-full motion-reduce:hidden" aria-hidden="true" />
+        <canvas ref={cv} className="absolute inset-0 hidden h-full w-full group-data-[anim=on]/lamps:block" aria-hidden="true" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#070810] to-transparent" aria-hidden="true" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#070810] to-transparent" aria-hidden="true" />
 
@@ -162,12 +183,12 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
         <div className="relative z-10 flex flex-1 items-end">
           <div className="wrap w-full pb-[clamp(40px,11vh,110px)]">
             {/* Static list first: it is the accessible record, and what shows without motion. */}
-            <ul className="m-0 flex list-none flex-col gap-3 p-0 motion-reduce:gap-5">
+            <ul className="m-0 flex list-none flex-col gap-5 p-0 group-data-[anim=on]/lamps:gap-3">
               {people.map((p, i) => (
-                <li key={p.slug} className="motion-safe:absolute motion-safe:bottom-[clamp(40px,11vh,110px)]">
+                <li key={p.slug} className="group-data-[anim=on]/lamps:absolute group-data-[anim=on]/lamps:bottom-[clamp(40px,11vh,110px)]">
                   <div
                     ref={(el) => { names.current[i] = el; }}
-                    className="motion-safe:opacity-0 motion-safe:[visibility:hidden] motion-safe:transition-none"
+                    className="group-data-[anim=on]/lamps:[visibility:hidden] group-data-[anim=on]/lamps:opacity-0"
                   >
                     <Link href={`/${lang}/people/${p.slug}`} className="group block no-underline">
                       <p className="font-display text-[clamp(34px,7vw,76px)] leading-[1.03] text-bone group-hover:text-candle">
@@ -181,7 +202,7 @@ export function FieldOfLamps({ people, lang, title, sub, unnamed }: {
                 </li>
               ))}
             </ul>
-            <p ref={tail} className="relative mt-6 max-w-[42ch] text-[15px] leading-relaxed text-smoke motion-safe:opacity-0">
+            <p ref={tail} className="relative mt-6 max-w-[42ch] text-[15px] leading-relaxed text-smoke group-data-[anim=on]/lamps:opacity-0">
               {unnamed}
             </p>
           </div>
